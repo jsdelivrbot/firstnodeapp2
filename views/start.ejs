@@ -213,8 +213,8 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
           </div>
         </div>
 
-        <input type="hidden" id="username" value="<%= username %>">
-       <input type="hidden" id="room_name" value="<%= room %>">
+        <input type="text" id="username" value="<%= username %>">
+       <input type="text" id="room_name" value="<%= room %>">
             <div class="panel panel-primary">
                 <div class="panel-heading" style="height: 15%;">
                     <span class="glyphicon glyphicon-comment"></span>&nbsp; <b><%= username %></b>
@@ -248,7 +248,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
                 <div class="panel-footer">
                  <div class="file-upload attachment_btn">
                           <label for="upload" class="file-upload__label" style='width:14%; cursor: pointer;'><i class="fa fa-paperclip" aria-hidden="true"></i></label>
-                          <input id="upload" class="file-upload__input" type="file" name="mkfile" >
+                          <input id="upload" class="file-upload__input" type="file" name="mkfile" title="Add Attachment">
                           </div>
                
                     <div class="input-group">
@@ -269,7 +269,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
     </div>
 <script type="text/javascript">
  window.onbeforeunload = function() {
-        return "Hey, are you sure you want to leave?";
+        return "Dude, are you sure you want to leave? Think of the kittens!";
     }
   $("document").ready(function(){
 
@@ -291,34 +291,43 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
           $('.emojiPicker').css({left:'80px', top:'12px'});
           //-----emoji end---------
         var pageURL = document.location.origin;
-       var socket = io.connect(pageURL);
+        var socket = io.connect(pageURL);
+        var username =$("#username").val();
+        var room =$("#room_name").val();
+        socket.emit('newuser',username,room);   //<-- it will create new room and server
 
-       var username =$("#username").val();
-       var room =$("#room_name").val();
-      socket.emit('newuser',username,room);   //<-- it will create new room and server
+         $('.emoji-wysiwyg-editor,.form-control,.input-sm').keypress(function(e){
+          //alert('enter');
+          if(e.keyCode==13)
+          {
+             
+            $('#btn-chat').click();
+          }
+        });
 
-               $('#text').keypress(function(e){
-                if(e.keyCode==13)
-                $('#btn-chat').click();
-              });
+        $("#btn-chat").click(function(){
+          var username =$("#username").val();
+          var msg=$("#text").val();
 
-             $("#btn-chat").click(function(){
-                var username =$("#username").val();
-                var msg=$("#text").val();
+          if(username!="" && msg!="")
+          {
+              var d = new Date();
+             var ts= Math.floor(d.getTime()/1000); 
 
-                if(username!="" && msg!="")
-                {
-                    var d = new Date();
-                   var ts= Math.floor(d.getTime()/1000); 
-
-                  socket.emit('sendmsg',msg,username,ts);
-                  $("#text").val('');
-                }
-              else
-              {
-                alert('Please provide required');
-              }
-            });
+            socket.emit('sendmsg',msg,username,ts);
+              $("#text").html('');
+              $('.emoji-wysiwyg-editor,.form-control,.input-sm').html('');
+              $('.emoji-wysiwyg-editor div').remove('');
+              
+          }
+          else
+          {
+            //alert('Please provide required');
+            $('.emoji-wysiwyg-editor,.form-control,.input-sm').html('');
+            $('.emoji-wysiwyg-editor div').remove('');
+             
+          }
+        });
 
     //normal chat
        socket.on('showchat',function(sendername,numuser,msg,ts){

@@ -203,21 +203,16 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
         <div class="col-md-10 col-sm-10">
         <!-- Modal -->
         <div id="myModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
+          <div class="modal-dialog" style="text-align: center;">
 
             <!-- Modal content-->
-            <div class="modal-content">
-              
-              <div class="modal-body">
-                 <div id='circle'></div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"></button>
-              </div>
+            <div class="modal-content" style="display: inline-block; box-shadow: none;border: none; background-color: transparent;">
+             <div id='circle'></div>
             </div>
 
           </div>
         </div>
+
         <input type="hidden" id="username" value="<%= username %>">
        <input type="hidden" id="room_name" value="<%= room %>">
             <div class="panel panel-primary">
@@ -450,7 +445,15 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
               thickness       : 4
 
               });
-            $('#myModal').modal('hide');
+             //$('#myModal').modal('hide');
+            // setTimeout(function() { 
+            //  $('#circle').progressCircle({
+            //   nPercent        : 0,
+            //   showPercentText : true,
+            //   circleSize      : 100,
+            //   thickness       : 3 
+            //   });
+            //  }, 4000);
         }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');

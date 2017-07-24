@@ -350,22 +350,22 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
           var imagepath=data['result'].url;
           var imagename=data['result'].msg;
           var type=data['result'].type;
-          alert(data['result'].type);
+          //alert(data['result'].type);
           if(imagename!='400')
           {
               if(type.indexOf('image') > -1) {
-                alert('image');
+                //alert('image');
                   var type='image';
                   socket.emit('sendfile',imagename,imagepath,type,username);
               }
               else if(type.indexOf('video') > -1) {
-                  alert('video');
+                  //alert('video');
                 var type='video';
                socket.emit('sendfile',imagename,imagepath,type,username);
               }
               else
               {
-                  alert('file');
+                 // alert('file');
                 var type='file';
                 socket.emit('sendfile',imagename,imagepath,type,username);
               }

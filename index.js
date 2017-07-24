@@ -164,27 +164,26 @@ app.post('/createuser',function(request,response){
 			});
 
 			
-			socket.on('sendmsg', function(msg){
+				socket.on('sendmsg', function(msg,user,ts){
 		    	
 		    	console.log('message: '+ socket.username);
-		    	io.to(socket.myroom).emit('showchat', socket.username,socket.nou,msg);
+		    	io.to(socket.myroom).emit('showchat', socket.username,socket.nou,msg,ts);
 		  	});
 
 			//pic from client side
-			socket.on('sendfile', function(imagename,imagepath,type){
+			socket.on('sendfile', function(imagename,imagepath,type,user,ts){
 		    	
 		    	console.log('file sender: '+ socket.username);
 		    	console.log('file type: '+ type);
 		    	if(type=='image')
 		    	{
-		    		io.to(socket.myroom).emit('showimage', socket.username,socket.nou,imagename,imagepath,type);
+		    		io.to(socket.myroom).emit('showimage', socket.username,socket.nou,imagename,imagepath,ts);
 		  		}
 		  		else if(type=='video')
 		  		{
-		  			io.to(socket.myroom).emit('showvideo', socket.username,socket.nou,imagename,imagepath,type);
+		  		io.to(socket.myroom).emit('showvideo', socket.username,socket.nou,imagename,imagepath,ts);
 		  		}
 		  	});
-
 
 			socket.on('disconnect', function(){
 		 	 //  console.log(socket.username+' disconnected');

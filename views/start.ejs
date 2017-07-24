@@ -268,12 +268,9 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
         </div>
     </div>
 <script type="text/javascript">
-    $(window).bind('beforeunload',function(){
-   var pageURL = document.location.origin;
-     // so that socket can  not create new session
-    //return 'You may loose game, if you refresh the page!!';
-    window.open(pageURL,"_self");
-});
+ window.onbeforeunload = function() {
+        return "Hey, are you sure you want to leave?";
+    }
   $("document").ready(function(){
 
           //Initialize circle progress bar

@@ -1,7 +1,7 @@
 	
 <html lang="en">
 <head>
-<title>Socket chat</title>
+<title> chat</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -201,17 +201,32 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
      <ul id="users"></ul>
   </div> 
         <div class="col-md-10 col-sm-10">
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              
+              <div class="modal-body">
+                 <div id='circle'></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"></button>
+              </div>
+            </div>
+
+          </div>
+        </div>
         <input type="hidden" id="username" value="<%= username %>">
        <input type="hidden" id="room_name" value="<%= room %>">
             <div class="panel panel-primary">
                 <div class="panel-heading" style="height: 15%;">
                     <span class="glyphicon glyphicon-comment"></span>&nbsp; <b><%= username %></b>
                     <div id="notif"></div>
-              		   
-                     
-  
+      
                     <div class="btn-group pull-right">
-                    <div id='circle' style="MARGIN-TOP: -50%;"></div>
+                   
                        <!-- <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-chevron-down"></span>
                         </button>
@@ -258,12 +273,19 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
         </div>
     </div>
 <script type="text/javascript">
+    $(window).bind('beforeunload',function(){
+   var pageURL = document.location.origin;
+     // so that socket can  not create new session
+    //return 'You may loose game, if you refresh the page!!';
+    window.open(pageURL,"_self");
+});
   $("document").ready(function(){
+
           //Initialize circle progress bar
            $('#circle').progressCircle({
               nPercent        : 0,
               showPercentText : true,
-              circleSize      : 50,
+              circleSize      : 100,
               thickness       : 3
               });
           // Initializes and creates emoji set from sprite sheet
@@ -385,6 +407,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
          // alert(data['result'].type);
           if(imagename!='400')
           {
+
             var d = new Date();
             var ts1= Math.floor(d.getTime()/1000); 
               if(type.indexOf('image') > -1) {
@@ -412,6 +435,8 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
       
         },
         progressall: function (e, data) {
+          
+          $('#myModal').modal('show');
             var progress = parseInt(data.loaded / data.total * 100, 10);
             // $('#progress .progress-bar').css(
             //     'width',
@@ -421,7 +446,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
             $('#circle').progressCircle({
               nPercent        : progress,
               showPercentText : true,
-              circleSize      : 50,
+              circleSize      : 100,
               thickness       : 4
 
               });
@@ -429,7 +454,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
              $('#circle').progressCircle({
               nPercent        : 0,
               showPercentText : true,
-              circleSize      : 50,
+              circleSize      : 100,
               thickness       : 3 
               });
              }, 4000);

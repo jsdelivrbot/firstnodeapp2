@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!--emoji-->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-<link href="public/lib/css/emoji.css" rel="stylesheet">
 <!--emoji ebd  -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -21,11 +20,9 @@
 <script src="public/js/jquery.fileupload.js"></script>
 
 <!-- ** emoji js Don't forget to Add jQuery here ** -->
-<script src="public/lib/js/config.js"></script>
-<script src="public/lib/js/util.js"></script>
-<script src="public/lib/js/jquery.emojiarea.js"></script>
-<script src="public/lib/js/emoji-picker.js"></script>
-<!-- emoji end-->
+<link rel="stylesheet" href="public/lib/css/emojionearea.min.css">
+<script src="public/lib/css/emojionearea.min.js"></script>
+ <!--emoji end-->
 <!-- circular bar -->
 <link rel="stylesheet" href="public/lib/css/circle.css">
 <script src="public/lib/js/progress-circle.js"></script>
@@ -254,7 +251,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
                     <div class="input-group">
 
 
-                        <input id="text" type="text" class="form-control input-sm"  placeholder="Type your message here..."  data-emojiable="true" autofocus />
+                        <input id="text" type="text" class="form-control input-sm"  placeholder="Type your message here..."   autofocus />
                         <span class="input-group-btn">
                          
                             <button type="button" class="btn btn-warning btn-sm" id="btn-chat">
@@ -271,6 +268,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
  window.onbeforeunload = function() {
         return "Dude, are you sure you want to leave? Think of the kittens!";
     }
+
   $("document").ready(function(){
 
           //Initialize circle progress bar
@@ -280,15 +278,8 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
               circleSize      : 100,
               thickness       : 3
               });
-          // Initializes and creates emoji set from sprite sheet
-          window.emojiPicker = new EmojiPicker({
-          emojiable_selector: '[data-emojiable=true]',
-          assetsPath: './public/lib/img/',
-          popupButtonClasses: 'fa fa-smile-o'
-          });
-         
-          window.emojiPicker.discover();
-          $('.emojiPicker').css({left:'80px', top:'12px'});
+
+           $("#text").emojioneArea({  });
           //-----emoji end---------
         var pageURL = document.location.origin;
         var socket = io.connect(pageURL);
@@ -296,8 +287,8 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
         var room =$("#room_name").val();
         socket.emit('newuser',username,room);   //<-- it will create new room and server
 
-         $('.emoji-wysiwyg-editor,.form-control,.input-sm').keypress(function(e){
-          //alert('enter');
+           $('.emojionearea-editor').bind('keypress', function(event) {
+          alert('enter');
           if(e.keyCode==13)
           {
              
@@ -315,22 +306,16 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
              var ts= Math.floor(d.getTime()/1000); 
 
             socket.emit('sendmsg',msg,username,ts);
-              $("#text").html('');
-              $('.emoji-wysiwyg-editor,.form-control,.input-sm').html('');
-              $('.emoji-wysiwyg-editor div').remove('');
-              
+              $("#text").val('');
+              $('.emojionearea-editor').html('');
+              $('.panel-body').scrollTop($('.panel-body').height()); 
           }
-          else
-          {
-            //alert('Please provide required');
-            $('.emoji-wysiwyg-editor,.form-control,.input-sm').html('');
-            $('.emoji-wysiwyg-editor div').remove('');
-             
-          }
+          
         });
 
     //normal chat
        socket.on('showchat',function(sendername,numuser,msg,ts){
+       
          if(sendername==username)
            {
               name=username;
@@ -341,11 +326,13 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
              name=sendername;
               $('.chat').append('<li class="right clearfix"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="glyphicon glyphicon-time ts" data-livestamp="'+ts+'" ></span></small><strong class="pull-right primary-font">'+name+'</strong></div> <p>'+msg+'</p></div></li>');
           }
+          $('.panel-body').scrollTop($('.panel-body').height()); 
     });
 
         //new pic send 
     socket.on('showimage', function(sendername,numuser,filename,imagepath,ts){
       //console.log(sendername);
+      
               if(sendername==username)
              {
                 name=username;
@@ -356,10 +343,12 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
                name=sendername;
                 $('.chat').append('<li class="right clearfix"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="glyphicon glyphicon-time ts" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'"style:"height: 100px;width: 150px;"></a></div></li>');
             }
+            $('.panel-body').scrollTop($('.panel-body').height()); 
         });
 
  socket.on('showvideo', function(sendername,numuser,filename,videopath,ts){
       //console.log(sendername);
+
               if(sendername==username)
              {
                 name=username;
@@ -370,6 +359,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
                name=sendername;
                 $('.chat').append('<li class="right clearfix"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="glyphicon glyphicon-time ts" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
             }
+            $('.panel-body').scrollTop($('.panel-body').height()); 
         });
     socket.on('notification', function(msg){
         $("#notif").html('<p>'+msg+'</p>');

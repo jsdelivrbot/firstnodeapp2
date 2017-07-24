@@ -450,14 +450,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
               thickness       : 4
 
               });
-            setTimeout(function() { 
-             $('#circle').progressCircle({
-              nPercent        : 0,
-              showPercentText : true,
-              circleSize      : 100,
-              thickness       : 3 
-              });
-             }, 4000);
+            $('#myModal').modal('hide');
         }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');

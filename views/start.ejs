@@ -1,5 +1,4 @@
 	
-	
 <html lang="en">
 <head>
 <title>Socket chat</title>
@@ -142,6 +141,7 @@
     background: #374b51 !important;
     border: 1px solid #374b51;
     color:#fff;
+    padding: 7px;
     
 }
  .ts{
@@ -154,16 +154,19 @@
 ******************************************/
 .file-upload {
   position: relative;
-  display: inline-block;
+   display: block;
+}
+.file-upload.attachment_btn{
+  float:right;
 }
 
 .file-upload__label {
-  display: block;
- padding: 0em 3.5em;
-  color: #fff;
-  background: #222;
-  border-radius: .4em;
-  transition: background .3s;
+  display: inline-table;
+    padding: 10px 18px;
+    color: #fff;
+    background: #337ab7;
+    border-radius: 3px;
+    transition: background .3s;
   
   &:hover {
      cursor: pointer;
@@ -204,10 +207,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-comment"></span>&nbsp; <b><%= username %></b>
                     <div id="notif"></div>
-              		    <div class="file-upload">
-              				    <label for="upload" class="file-upload__label" style='width:14%'>Attach</label>
-              				    <input id="upload" class="file-upload__input" type="file" name="mkfile" >
-              				</div>
+              		   
                      
   
                     <div class="btn-group pull-right">
@@ -236,11 +236,17 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
                     </ul>
                 </div>
                 <div class="panel-footer">
+                 <div class="file-upload attachment_btn">
+                          <label for="upload" class="file-upload__label" style='width:14%; cursor: pointer;'><i class="fa fa-paperclip" aria-hidden="true"></i></label>
+                          <input id="upload" class="file-upload__input" type="file" name="mkfile" >
+                          </div>
                
                     <div class="input-group">
 
+
                         <input id="text" type="text" class="form-control input-sm"  placeholder="Type your message here..."  data-emojiable="true" autofocus />
                         <span class="input-group-btn">
+                         
                             <button type="button" class="btn btn-warning btn-sm" id="btn-chat">
                                 Send</button>
 				
@@ -424,7 +430,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
               nPercent        : 0,
               showPercentText : true,
               circleSize      : 50,
-              thickness       : 3
+              thickness       : 3 
               });
              }, 4000);
         }

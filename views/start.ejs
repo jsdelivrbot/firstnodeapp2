@@ -195,7 +195,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
   <div class="row">
   <div class="col-md-2 col-sm-2">
   <h4>Online User</h4>
-     <ul id="users"></ul>
+      <div id="users"></div>
   </div> 
         <div class="col-md-10 col-sm-10">
         <!-- Modal -->
@@ -233,7 +233,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
                                 Away</a></li>
                             <li class="divider"></li>
                             <li><a href=""><span class="glyphicon glyphicon-off"></span>
-                                Sign Out</a></li>
+                                Sign Out</a></li
                         </ul>-->
                     </div>
                 </div>
@@ -314,7 +314,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
         });
 
     //normal chat
-       socket.on('showchat',function(sendername,numuser,msg,ts){
+       socket.on('showchat',function(sendername,msg,ts){
        
          if(sendername==username)
            {
@@ -330,7 +330,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
     });
 
         //new pic send 
-    socket.on('showimage', function(sendername,numuser,filename,imagepath,ts){
+    socket.on('showimage', function(sendername,filename,imagepath,ts){
       //console.log(sendername);
       
               if(sendername==username)
@@ -346,7 +346,7 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
             $('.panel-body').scrollTop($('.panel-body').height()); 
         });
 
- socket.on('showvideo', function(sendername,numuser,filename,videopath,ts){
+ socket.on('showvideo', function(sendername,filename,videopath,ts){
       //console.log(sendername);
 
               if(sendername==username)
@@ -361,15 +361,22 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
             }
             $('.panel-body').scrollTop($('.panel-body').height()); 
         });
+
     socket.on('notification', function(msg){
         $("#notif").html('<p>'+msg+'</p>');
         setTimeout(function() { $("#notif").html(''); }, 3000);
     });
 
-    socket.on('broadcast',function(username){
-        //alert(username);
-          $('#users').html('<li><b>'+username+'</b></li>');
-       
+    socket.on('updateUserList',function(users){
+        console.log(username+'addedlist');
+          //$('#users').html('<li><b>'+username+'</b></li>');
+         var ol = jQuery('<ol></ol>');
+
+        users.forEach(function (user) {
+          ol.append(jQuery('<li></li>').text(user));
+        });
+
+        jQuery('#users').html(ol);
       
     });
 
@@ -408,8 +415,8 @@ i.emoji-picker-icon.emoji-picker.fa.fa-smile-o{
               }
               else if(type.indexOf('video') > -1) {
                   //alert('video');
-                var type='video';
-               socket.emit('sendfile',imagename,imagepath,type,username,ts1);
+                  var type='video';
+                 socket.emit('sendfile',imagename,imagepath,type,username,ts1);
               }
               else
               {

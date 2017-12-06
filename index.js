@@ -10,6 +10,8 @@
 			var nodemailer=require('nodemailer');
 			var http=require('http').Server(app);
 			var io=require('socket.io')(http);
+			const {Users} = require('./utils/users');
+			var users = new Users();
           // app.set('port', (process.env.PORT || 5000));
            //http.listen(app.get('port'));
            http.listen(port);
@@ -80,17 +82,17 @@ app.post('/createuser',function(request,response){
 			return self.indexOf(value) === index;
 		}
 
-	function removeA(arr) 
-	{
-	    var what, a = arguments, L = a.length, ax;
-	    while (L > 1 && arr.length) {
-	        what = a[--L];
-	        while ((ax= arr.indexOf(what)) !== -1) {
-	            arr.splice(ax, 1);
-	        }
-	    }
-  	  return arr;
-	}
+		function removeA(arr) 
+		{
+		var what, a = arguments, L = a.length, ax;
+		while (L > 1 && arr.length) {
+		    what = a[--L];
+		    while ((ax= arr.indexOf(what)) !== -1) {
+		        arr.splice(ax, 1);
+		    }
+		}
+		  return arr;
+		}
 	app.post('/upload',function(req,res){
 			var file=req.files.mkfile;   //request.files.filenamefield
 			var filename=file.name;	
@@ -126,23 +128,26 @@ app.post('/createuser',function(request,response){
 	var room2user=[];
 
 		io.on('connection', function(socket){
-			console.log('socket started');
-				
+			console.log('socket started: New user connected');
+			
+			//join	
 			socket.on('newuser', function(username,room){
 			
 					socket.join(room);
-					socket.username=username;
-					socket.myroom=room;
-
+					//socket.username=username;
+					//socket.myroom=room;
+					 users.removeUser(socket.id);
+   					 users.addUser(socket.id, username, room);
+   					 io.to(room).emit('updateUserList', users.getUserList(room));
 					//-----showing user in a room wise
-					if(room=='room1')
+					/*if(room=='room1')
 					{
 						current_users1.push(username);
 
 						room1user = current_users1.filter( onlyUnique );
 						console.log('total:'+room1user);
 						//io.sockets.emit('broadcast',room1user);
-						io.to(socket.myroom).emit('broadcast',room1user);
+						io.to(params.room).emit('updateUserList', users.getUserList(params.room));
 					}
 					else
 					{
@@ -151,8 +156,8 @@ app.post('/createuser',function(request,response){
 						room2user = current_users2.filter( onlyUnique );
 						console.log('total:'+room2user);
 						//io.sockets.emit('broadcast',room1user);
-						io.to(socket.myroom).emit('broadcast',room2user);
-					}
+						io.to(params.room).emit('updateUserList', users.getUserList(room));
+					}*/
 					//---------------------------------
 					
 
@@ -164,34 +169,35 @@ app.post('/createuser',function(request,response){
 			});
 
 			
-				socket.on('sendmsg', function(msg,user,ts){
-		    	
-		    	console.log('message: '+ socket.username);
-		    	io.to(socket.myroom).emit('showchat', socket.username,socket.nou,msg,ts);
+			socket.on('sendmsg', function(msg,username,ts){
+		    	 var user = users.getUser(socket.id);
+		    	console.log('message: '+ user.name);
+		    	io.to(user.room).emit('showchat', user.name,msg,ts);
 		  	});
 
 			//pic from client side
 			socket.on('sendfile', function(imagename,imagepath,type,user,ts){
-		    	
-		    	console.log('file sender: '+ socket.username);
+		    	var user = users.getUser(socket.id);
+		    	console.log('file sender: '+ user.name);
 		    	console.log('file type: '+ type);
 		    	if(type=='image')
 		    	{
-		    		io.to(socket.myroom).emit('showimage', socket.username,socket.nou,imagename,imagepath,ts);
+		    		io.to(user.room).emit('showimage', user.name,imagename,imagepath,ts);
 		  		}
 		  		else if(type=='video')
 		  		{
-		  		io.to(socket.myroom).emit('showvideo', socket.username,socket.nou,imagename,imagepath,ts);
+		  		    io.to(user.room).emit('showvideo', user.name,imagename,imagepath,ts);
 		  		}
 		  	});
 
 			socket.on('disconnect', function(){
-		 	 //  console.log(socket.username+' disconnected');
-		    	var msg=socket.username+' disconnected';
-		    	//var newuser=removeA(unique_user,socket.username);
-		    	//io.sockets.emit('broadcast',newuser);
-		    	io.to(socket.myroom).emit('notification',msg);
-
+		    	  var user = users.removeUser(socket.id);
+				    if (user) 
+				    {
+				    	var msg=user.name+' disconnected';
+				      	io.to(user.room).emit('updateUserList', users.getUserList(user.room));
+				    	io.to(user.room).emit('notification',msg);
+				    }
 		 	 });
 
 		});
@@ -202,13 +208,13 @@ app.post('/createuser',function(request,response){
 			response.render('start_socket');
 		});
 
-	app.post('/createroom',function(request,response){
-		var username=request.body.username;
-		var room_name=request.body.optradio;
-		request.session.user=username;
-		//console.log(request.session.user);
-		response.render('start',{username:username,room:room_name});
-	});
+		app.post('/createroom',function(request,response){
+			var username=request.body.username;
+			var room_name=request.body.optradio;
+			request.session.user=username;
+			//console.log(request.session.user);
+			response.render('start',{username:username,room:room_name});
+		});
 		// socket end
 
 

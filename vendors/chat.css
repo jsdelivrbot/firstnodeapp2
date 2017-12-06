@@ -2,6 +2,9 @@
    /* //height: 117vh;*/
    background:  #337ab7
 }
+.myarea{
+   background: antiquewhite;
+}
 /*.chat__sidebar ol{list-style-type:none;} */
 .chat__sidebar li{ background-color: #179086; 
     border: none;

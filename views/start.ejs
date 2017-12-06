@@ -98,7 +98,7 @@
                          
                             <button type="button" class="btn btn-warning btn-sm" id="btn-chat">
                                 Send</button>
-				
+        
                         </span>
                     </div>
                   
@@ -167,7 +167,7 @@
          if(sendername==username)
            {
               name=username;
-             $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
+             $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
              $('.panel-body').scrollTop($('.panel-body').height()); 
           }
           else
@@ -188,7 +188,7 @@
               if(sendername==username)
              {
                 name=username;
-               $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
+               $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
                $('.panel-body').scrollTop($('.panel-body').height()); 
             }
             else
@@ -208,7 +208,7 @@
               if(sendername==username)
              {
                 name=username;
-               $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
+               $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
                $('.panel-body').scrollTop($('.panel-body').height()); 
             }
             else

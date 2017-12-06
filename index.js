@@ -128,9 +128,20 @@ app.post('/createuser',function(request,response){
 					socket.join(room);
 					//socket.username=username;
 					//socket.myroom=room;
-					 users.removeUser(socket.id);
+					console.log("list:"+users.getUserList(room));
+					var x=users.getUserList(room);
+					if (x.indexOf(username) >= 0) {
+					    console.log("Found");
+					    var msg='Fake User trying to enter with name:['+username+']';
+					    socket.broadcast.emit('notification',msg);
+					   
+					} else {
+					    console.log("Not found");
+					     users.removeUser(socket.id);
    					 users.addUser(socket.id, username, room);
    					 io.to(room).emit('updateUserList', users.getUserList(room));
+					}
+					
 					
 			});
 

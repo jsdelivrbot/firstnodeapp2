@@ -117,15 +117,7 @@ app.post('/createuser',function(request,response){
 
 	});
 	//socket
-		//var ary = ['three', 'seven', 'eleven'];
-		//removeA(ary, 'seven');
-		/*  returned value: (Array)
-		three,eleven
-		*/
-	var current_users1=[];
-	var room1user=[];
-	var current_users2=[];
-	var room2user=[];
+	
 
 		io.on('connection', function(socket){
 			console.log('socket started: New user connected');
@@ -139,33 +131,7 @@ app.post('/createuser',function(request,response){
 					 users.removeUser(socket.id);
    					 users.addUser(socket.id, username, room);
    					 io.to(room).emit('updateUserList', users.getUserList(room));
-					//-----showing user in a room wise
-					/*if(room=='room1')
-					{
-						current_users1.push(username);
-
-						room1user = current_users1.filter( onlyUnique );
-						console.log('total:'+room1user);
-						//io.sockets.emit('broadcast',room1user);
-						io.to(params.room).emit('updateUserList', users.getUserList(params.room));
-					}
-					else
-					{
-						current_users2.push(username);
-
-						room2user = current_users2.filter( onlyUnique );
-						console.log('total:'+room2user);
-						//io.sockets.emit('broadcast',room1user);
-						io.to(params.room).emit('updateUserList', users.getUserList(room));
-					}*/
-					//---------------------------------
 					
-
-					//var clients = io.sockets.adapter.rooms[socket.myroom].length;   
-	 				//console.log('Username: ' +JSON.stringify(clients));
-					//to get the number of user
-						    
-				
 			});
 
 			

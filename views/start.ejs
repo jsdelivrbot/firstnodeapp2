@@ -34,11 +34,11 @@
 <!-- time ago end -->
 </head>
 <body>
-  <div class="col-md-12">
-  <div class="col-md-2 col-sm-2 chat__sidebar">
-  <h4>Online User</h4><hr>
-      <div id="users"></div>
-  </div> 
+  <div class="container">
+    <div class="col-md-2 col-sm-2 chat__sidebar">
+    <h4>Online User</h4><hr>
+        <div id="users"></div>
+    </div> 
         <div class="col-md-10 col-sm-10">
         <!-- Modal -->
         <div id="myModal" class="modal fade" role="dialog">
@@ -109,7 +109,7 @@
 <script type="text/javascript">
 
  window.onbeforeunload = function() {
-        return "Dude, are you sure you want to leave? Think of the kittens!";
+        return "Are you sure you want to leave? Think of the kittens!";
     }
 
   $("document").ready(function(){
@@ -168,14 +168,17 @@
            {
               name=username;
              $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
-             $('.panel-body').scrollTop($('.panel-body').height()); 
+             //$('.panel-body').scrollTop($('.panel-body').height()); 
+             $('.panel-body').scrollTop(1E10); 
           }
           else
           {
              name=sendername;
               //$('.chat').append('<li class="right clearfix"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'" ></span></small><strong class="pull-right primary-font">'+name+'</strong></div> <p>'+msg+'</p></div></li>');
                $('.chat').append('<li class="left clearfix otherarea"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
-               $('.panel-body').scrollTop($('.panel-body').height()); 
+               
+               $('.panel-body').scrollTop(1E10); 
+
           }
           
           
@@ -189,14 +192,16 @@
              {
                 name=username;
                $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
-               $('.panel-body').scrollTop($('.panel-body').height()); 
+               //$('.panel-body').scrollTop($('.panel-body').height()); 
+               $('.panel-body').scrollTop(1E10); 
             }
             else
             {
                name=sendername;
                 //$('.chat').append('<li class="right clearfix otherarea"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'"style:"height: 100px;width: 150px;"></a></div></li>');
                 $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
-                $('.panel-body').scrollTop($('.panel-body').height()); 
+                //$('.panel-body').scrollTop($('.panel-body').height()); 
+                $('.panel-body').scrollTop(1E10); 
 
             }
            
@@ -209,14 +214,16 @@
              {
                 name=username;
                $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
-               $('.panel-body').scrollTop($('.panel-body').height()); 
+               //$('.panel-body').scrollTop($('.panel-body').height()); 
+               $('.panel-body').scrollTop(1E10); 
             }
             else
             {
                name=sendername;
                 //$('.chat').append('<li class="right clearfix otherarea"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
                 $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
-                $('.panel-body').scrollTop($('.panel-body').height()); 
+               // $('.panel-body').scrollTop($('.panel-body').height()); 
+                $('.panel-body').scrollTop(1E10); 
             }
            
             

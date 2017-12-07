@@ -1,6 +1,7 @@
             var express = require('express');
 			var mysql=require('mysql');
 			var md5 = require('md5');
+			var flash = require('connect-flash');
 			var session = require('express-session');			
 			var app  = express();
 			
@@ -15,13 +16,18 @@
           // app.set('port', (process.env.PORT || 5000));
            //http.listen(app.get('port'));
            http.listen(port);
-
+           console.log('app runing on port:'+port);
            app.use(upload()); //for file upload -- html form file upload imp
        	  // app.use(express.static(__dirname + '/public'));
 			app.use('/public', express.static('vendors')); 
 			store  = new express.session.MemoryStore;
 			app.use(express.cookieParser());
 			app.use(express.session({ secret: 'something'}));
+			  app.use(flash());
+			 var Filter = require('bad-words'),
+ 				 filter = new Filter();
+ 				 filter.addWords(['chut', 'chaat','Hema','hema','Priyanka','priyanka','monu']);
+
 			// set the home page route
 			app.get('/', function(req, res) {
 				
@@ -128,15 +134,15 @@ app.post('/createuser',function(request,response){
 					socket.join(room);
 					//socket.username=username;
 					//socket.myroom=room;
-					console.log("list:"+users.getUserList(room));
+					//console.log("list:"+users.getUserList(room));
 					var x=users.getUserList(room);
 					if (x.indexOf(username) >= 0) {
-					    console.log("Found");
+					    //console.log("Found");
 					    var msg='Fake User trying to enter with name:['+username+']';
 					    socket.broadcast.emit('notification',msg);
 					   
 					} else {
-					    console.log("Not found");
+					    //console.log("Not found");
 					     users.removeUser(socket.id);
    					 users.addUser(socket.id, username, room);
    					 io.to(room).emit('updateUserList', users.getUserList(room));
@@ -147,9 +153,9 @@ app.post('/createuser',function(request,response){
 
 			
 			socket.on('sendmsg', function(msg,username,ts){
-		    	 var user = users.getUser(socket.id);
-		    	console.log('message: '+ user.name);
-		    	io.to(user.room).emit('showchat', user.name,msg,ts);
+			    		 var user = users.getUser(socket.id);
+			    		//console.log('message: '+ user.name);
+			    		io.to(user.room).emit('showchat', user.name,filter.clean(msg),ts);
 		  	});
 
 			//pic from client side
@@ -182,15 +188,28 @@ app.post('/createuser',function(request,response){
 
 		app.get('/start_sock',function(request,response){
 		
-			response.render('start_socket');
+			response.render('start_socket',{ messages: request.flash('errmsg') });
+			
 		});
 
 		app.post('/createroom',function(request,response){
 			var username=request.body.username;
 			var room_name=request.body.optradio;
 			request.session.user=username;
+			//console.log("startlist:"+users.getUserList(room_name));
 			//console.log(request.session.user);
-			response.render('start',{username:username,room:room_name});
+			var y=users.getUserList(room_name);
+			if (y.indexOf(username) >= 0) {
+		    //console.log("Found");
+		  
+		    	request.flash('errmsg', 'User already Member of the room.')
+		    	 response.redirect('/start_sock');
+					   
+			}
+			else
+			{
+				response.render('start',{username:username,room:room_name});
+			}
 		});
 		// socket end
 

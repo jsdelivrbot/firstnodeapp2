@@ -10,7 +10,7 @@
    background:#deeffb;
 }
 /*.chat__sidebar ol{list-style-type:none;} */
-.chat__sidebar li{ background-color: #179086; 
+.chat__sidebar li{ 
     border: none;
     color: white;
     padding: 0px 7px;

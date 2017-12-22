@@ -26,7 +26,7 @@
 			  app.use(flash());
 			 var Filter = require('bad-words'),
  				 filter = new Filter();
- 				 filter.addWords(['chut', 'chaat','Hema','hema','Priyanka','priyanka','monu']);
+ 				 filter.addWords(['chut', 'chaat','monu','kanyal']);
 
 			// set the home page route
 			app.get('/', function(req, res) {

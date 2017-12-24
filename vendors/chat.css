@@ -99,6 +99,7 @@
 {
     margin: 0;
     /*color: #777777;*/
+    font-family: 'Slabo 27px', serif;
 }
 
 .panel .slidedown .glyphicon, .chat .glyphicon

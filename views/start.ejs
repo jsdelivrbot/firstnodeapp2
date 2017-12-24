@@ -168,7 +168,7 @@
          if(sendername==username)
            {
               name=username;
-             $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
+             $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
              //$('.panel-body').scrollTop($('.panel-body').height()); 
              $('.panel-body').scrollTop(1E10); 
           }
@@ -176,8 +176,8 @@
           {
              name=sendername;
               $.playSound('/public/oringz-w449.mp3');
-              //$('.chat').append('<li class="right clearfix"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'" ></span></small><strong class="pull-right primary-font">'+name+'</strong></div> <p>'+msg+'</p></div></li>');
-               $('.chat').append('<li class="left clearfix otherarea"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
+              //$('.chat').append('<li class="right clearfix"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'" ></span></small><strong class="pull-right primary-font">'+name+'</strong></div> <p>'+msg+'</p></div></li>');
+               $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
                
                $('.panel-body').scrollTop(1E10); 
 
@@ -193,7 +193,7 @@
               if(sendername==username)
              {
                 name=username;
-               $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
+               $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
                //$('.panel-body').scrollTop($('.panel-body').height()); 
                $('.panel-body').scrollTop(1E10); 
             }
@@ -201,8 +201,8 @@
             {
                name=sendername;
                  $.playSound('/public/oringz-w449.mp3');
-                //$('.chat').append('<li class="right clearfix otherarea"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'"style:"height: 100px;width: 150px;"></a></div></li>');
-                $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
+                //$('.chat').append('<li class="right clearfix otherarea"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'"style:"height: 100px;width: 150px;"></a></div></li>');
+                $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
                 //$('.panel-body').scrollTop($('.panel-body').height()); 
                 $('.panel-body').scrollTop(1E10); 
 
@@ -216,7 +216,7 @@
               if(sendername==username)
              {
                 name=username;
-               $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
+               $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
                //$('.panel-body').scrollTop($('.panel-body').height()); 
                $('.panel-body').scrollTop(1E10); 
             }
@@ -224,8 +224,8 @@
             {
                name=sendername;
                 $.playSound('/public/oringz-w449.mp3');
-                //$('.chat').append('<li class="right clearfix otherarea"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
-                $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
+                //$('.chat').append('<li class="right clearfix otherarea"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
+                $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body speech-bubble"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
                // $('.panel-body').scrollTop($('.panel-body').height()); 
                 $('.panel-body').scrollTop(1E10); 
             }

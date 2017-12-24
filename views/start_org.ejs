@@ -1,0 +1,330 @@
+<html lang="en">
+<head>
+<title> chat</title>
+<meta charset="utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--emoji-->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="public/chat.css">
+<!--emoji ebd  -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+<script src="public/jquery.playSound.js"></script>
+
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="public/js/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="public/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="public/js/jquery.fileupload.js"></script>
+
+<!-- ** emoji js Don't forget to Add jQuery here ** -->
+<!-- <link rel="stylesheet" href="public/lib/css/emojionearea.min.css">
+<script src="public/lib/css/emojionearea.min.js"></script> -->
+ <!--emoji css/js end-->
+<!-- circular bar -->
+<link rel="stylesheet" href="public/lib/css/circle.css">
+<script src="public/lib/js/progress-circle.js"></script>
+<!-- circular bar end-->
+
+<!-- time ago -->
+<script src="public/lib/js/moment.min.js"></script>
+<script src="public/lib/js/livestamp.min.js"></script>
+<!-- time ago end -->
+</head>
+<body>
+  <div class="container">
+    <div class="col-md-2 col-sm-2 chat__sidebar">
+    <h4>Online User</h4><hr>
+        <div id="users"></div>
+    </div> 
+        <div class="col-md-10 col-sm-10">
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog" style="text-align: center;">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="display: inline-block; box-shadow: none;border: none; background-color: transparent;">
+             <div id='circle'></div>
+            </div>
+
+          </div>
+        </div>
+
+        <input type="hidden" id="username" value="<%= username %>">
+       <input type="hidden" id="room_name" value="<%= room %>">
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="height: 15%;">
+                    <span class="glyphicon glyphicon-comment"></span>&nbsp; <b><%= username %></b>
+                    <div id="notif"></div>
+      
+                    <div class="btn-group pull-right">
+                   
+                       <!-- <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <ul class="dropdown-menu slidedown">
+                            <li><a href=""><span class="glyphicon glyphicon-refresh">
+                            </span>Refresh</a></li>
+                            <li><a href=""><span class="glyphicon glyphicon-ok-sign">
+                            </span>Available</a></li>
+                            <li><a href=""><span class="glyphicon glyphicon-remove">
+                            </span>Busy</a></li>
+                            <li><a href=""><span class="glyphicon glyphicon-time"></span>
+                                Away</a></li>
+                            <li class="divider"></li>
+                            <li><a href=""><span class="glyphicon glyphicon-off"></span>
+                                Sign Out</a></li
+                        </ul>-->
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul class="chat">
+
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                 <div class="file-upload attachment_btn">
+          <label for="upload" class="file-upload__label" style='width:14%; cursor: pointer;'><i class="fa fa-paperclip" aria-hidden="true"></i></label>
+        <input id="upload" class="file-upload__input" type="file" name="mkfile" title="Add Attachment">
+                          </div>
+               
+                    <div class="input-group">
+
+
+                        <input id="text" type="text" class="form-control input-md"  placeholder="Type your message here..."   autofocus />
+                        <span class="input-group-btn">
+                         
+                            <button type="button" class="btn btn-warning btn-sm" id="btn-chat">
+                                Send</button>
+        
+                        </span>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+
+ window.onbeforeunload = function() {
+        return "Are you sure you want to leave? Think of the kittens!";
+    }
+
+  $("document").ready(function(){
+
+          //Initialize circle progress bar
+           $('#circle').progressCircle({
+              nPercent        : 0,
+              showPercentText : true,
+              circleSize      : 100,
+              thickness       : 3
+              });
+
+           //$("#text").emojioneArea({  });
+          //-----emoji end---------
+        var pageURL = document.location.origin;
+        var socket = io.connect(pageURL);
+        var username =$("#username").val();
+        var room =$("#room_name").val();
+        socket.emit('newuser',username,room);   //<-- it will create new room and server
+
+        //    $('.emojionearea-editor').bind('keypress', function(event) {
+        //   alert('enter');
+        //   if(e.keyCode==13)
+        //   {
+             
+        //     $('#btn-chat').click();
+        //   }
+        // });
+         $('#text').keypress(function(e)
+         {
+            if (e.keyCode == '13') {
+                 $('#btn-chat').click();
+            }
+        });
+        $("#btn-chat").click(function(){
+          var username =$("#username").val();
+          var msg=$("#text").val();
+
+          if(username!="" && msg!="")
+          {
+              var d = new Date();
+             var ts= Math.floor(d.getTime()/1000); 
+
+            socket.emit('sendmsg',msg,username,ts);
+              $("#text").val('');
+              //$('.emojionearea-editor').html('');
+              $('.panel-body').scrollTop($('.panel-body').height()); 
+          }
+          
+        });
+
+    //normal chat
+       socket.on('showchat',function(sendername,msg,ts){
+       
+         if(sendername==username)
+           {
+              name=username;
+             $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
+             //$('.panel-body').scrollTop($('.panel-body').height()); 
+             $('.panel-body').scrollTop(1E10); 
+          }
+          else
+          {
+             name=sendername;
+              $.playSound('/public/oringz-w449.mp3');
+              //$('.chat').append('<li class="right clearfix"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'" ></span></small><strong class="pull-right primary-font">'+name+'</strong></div> <p>'+msg+'</p></div></li>');
+               $('.chat').append('<li class="left clearfix otherarea"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small> </div><p>'+msg+'</p> </div></li>');
+               
+               $('.panel-body').scrollTop(1E10); 
+
+          }
+          
+          
+    });
+
+        //new pic send 
+    socket.on('showimage', function(sendername,filename,imagepath,ts){
+      //console.log(sendername);
+      
+              if(sendername==username)
+             {
+                name=username;
+               $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
+               //$('.panel-body').scrollTop($('.panel-body').height()); 
+               $('.panel-body').scrollTop(1E10); 
+            }
+            else
+            {
+               name=sendername;
+                 $.playSound('/public/oringz-w449.mp3');
+                //$('.chat').append('<li class="right clearfix otherarea"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'"style:"height: 100px;width: 150px;"></a></div></li>');
+                $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><a download="'+filename+'" href="'+imagepath+'" title="'+filename+'"><img alt="'+filename+'" class="img-thumbnail" src="'+imagepath+'" style:"height: 100px;width: 150px;"></a> </div></li>');
+                //$('.panel-body').scrollTop($('.panel-body').height()); 
+                $('.panel-body').scrollTop(1E10); 
+
+            }
+           
+        });
+
+ socket.on('showvideo', function(sendername,filename,videopath,ts){
+      //console.log(sendername);
+
+              if(sendername==username)
+             {
+                name=username;
+               $('.chat').append('<li class="left clearfix myarea"><span class="chat-img cricle_info pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"><div class="header"><strong class="primary-font">'+name+'*</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
+               //$('.panel-body').scrollTop($('.panel-body').height()); 
+               $('.panel-body').scrollTop(1E10); 
+            }
+            else
+            {
+               name=sendername;
+                $.playSound('/public/oringz-w449.mp3');
+                //$('.chat').append('<li class="right clearfix otherarea"><span class="chat-img cricle_info2 pull-right">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><small class=" text-muted"><span class="" data-livestamp="'+ts+'"></span></small><strong class="pull-right primary-font">'+name+'</strong></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
+                $('.chat').append('<li class="left clearfix"><span class="chat-img cricle_info2 pull-left">'+name.charAt(0).toUpperCase()+'</span> <div class="chat-body clearfix"> <div class="header"><strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted"> <span class="" data-livestamp="'+ts+'"></span></small></div><video width="200" controls><source src="'+videopath+'" type="video/mp4">Your browser does not support HTML5 video.</video></div></li>');
+               // $('.panel-body').scrollTop($('.panel-body').height()); 
+                $('.panel-body').scrollTop(1E10); 
+            }
+           
+            
+        });
+
+    socket.on('notification', function(msg){
+        $("#notif").html('<p>'+msg+'</p>');
+        setTimeout(function() { $("#notif").html(''); }, 3000);
+    });
+
+    socket.on('updateUserList',function(users){
+        console.log(username+'addedlist');
+          //$('#users').html('<li><b>'+username+'</b></li>');
+         var ol = jQuery('<ol></ol>');
+
+        users.forEach(function (user) {
+          ol.append(jQuery('<li></li>').text(user));
+        });
+
+        jQuery('#users').html(ol);
+      
+    });
+
+     // Change this to the location of your server-side upload handler:
+    var url = pageURL+'/upload';
+    $('#upload').fileupload({
+        url: url,
+        dataType: 'json',
+        maxFileSize: 20000000, //20mb
+        done: function (e, data) {
+
+          //console.log(data['result'].msg);
+          //console.log(data['result'].url);
+          //console.log(data['result'].type);
+          var imagepath=data['result'].url;
+          var imagename=data['result'].msg;
+          var type=data['result'].type;
+         // alert(data['result'].type);
+          if(imagename!='400')
+          {
+
+            var d = new Date();
+            var ts1= Math.floor(d.getTime()/1000); 
+              if(type.indexOf('image') > -1) {
+                //alert('image');
+                  var type='image';
+                  socket.emit('sendfile',imagename,imagepath,type,username,ts1);
+              }
+              else if(type.indexOf('video') > -1) {
+                  //alert('video');
+                  var type='video';
+                 socket.emit('sendfile',imagename,imagepath,type,username,ts1);
+              }
+              else
+              {
+                  //alert('file');
+                var type='file';
+                socket.emit('sendfile',imagename,imagepath,type,username,ts1);
+              }
+         
+          }
+          else
+          {
+            alert('something is wrong');
+          }
+      
+        },
+        progressall: function (e, data) {
+          
+          $('#myModal').modal('show');
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            // $('#progress .progress-bar').css(
+            //     'width',
+            //     progress + '%'
+            // );
+            
+            $('#circle').progressCircle({
+              nPercent        : progress,
+              showPercentText : true,
+              circleSize      : 100,
+              thickness       : 4
+
+              });
+             //$('#myModal').modal('hide');
+            // setTimeout(function() { 
+            //  $('#circle').progressCircle({
+            //   nPercent        : 0,
+            //   showPercentText : true,
+            //   circleSize      : 100,
+            //   thickness       : 3 
+            //   });
+            //  }, 4000);
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+
+</script>
+</body>
+</html>

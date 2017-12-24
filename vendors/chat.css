@@ -98,7 +98,7 @@
 .chat li .chat-body p
 {
     margin: 0;
-    color: #777777;
+   /* color: #777777; */
 }
 
 .panel .slidedown .glyphicon, .chat .glyphicon

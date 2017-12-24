@@ -241,10 +241,10 @@
     socket.on('updateUserList',function(users){
         console.log(username+'addedlist');
           //$('#users').html('<li><b>'+username+'</b></li>');
-         var ol = jQuery('<ol></ol>');
+         var ol = jQuery('<ol style="list-style-type:none"></ol>');
 
         users.forEach(function (user) {
-          ol.append(jQuery('<li></li>').text(user));
+     ol.append(jQuery('<li></li>').html(user+'<i class="fa fa-circle fa-xs" aria-hidden="true" style="color: #abe257;"></i>'));
         });
 
         jQuery('#users').html(ol);
